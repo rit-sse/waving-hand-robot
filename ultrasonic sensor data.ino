@@ -1,6 +1,7 @@
 const int trigPin = 9; // Trigger pin from ultrasonic sensor
 const int echoPin = 10; // Echo pin
 
+float distance_multiple = 0.01715 / 2; // was magic number before 0.0343 / 2, typing this into duckduckgo to precalculate says derived from speed of sound
 float duration, distance;
 float previousDistance = 0;
 const int numReadings = 20;  // Averages number of readings to guarantee accurate readings
@@ -10,7 +11,7 @@ const float outlierThreshold = 200.0;  // Maximum allowed deviation from previou
 void setup() {
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
-  Serial.begin(9600);
+  Serial.begin(9600); // will have to merge with pir
 }
 
 void loop() {
@@ -26,7 +27,7 @@ void loop() {
     digitalWrite(trigPin, LOW);
 
     duration = pulseIn(echoPin, HIGH);
-    distance = (duration * 0.0343) / 2;
+    distance = duration * distance_multiple;
 
     // Only include reasonable readings to avoid large jumps
     if (distance > 2 && distance < 400 && abs(distance - previousDistance) < outlierThreshold) {
