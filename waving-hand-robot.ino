@@ -2,29 +2,22 @@
 #include "sensor.h"
 
 // needs to be on pin 2, as it is one of the only arduino uno interrupt pins
-#define PUSH_BUTTON_PIN 2
+#define MIN_WAVE_DIST 50 // this will need to be changed whenever I have the motor
 
 void setup() {
   // put your setup code here, to run once:
   init_motor();
   init_sensor();
-
-  // push button
-  pinMode(PUSH_BUTTON_PIN, INPUT); 
-  attachInterrupt(digitalPinToInterrupt(PUSH_BUTTON_PIN), pushButtonInterrupt, FALLING);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  wave();
-}
+  
+  // read ultrasonic sensor input
+  int value = read();
 
-/**
- * interrupt to wave robot using a push button 
- *
- * CAN BE DELETED IN FINAL VERSION
- */
-void pushButtonInterrupt()
-{
-  trigger_wave();
+  // if someone is close enough to the sensor for it to be a 'wave'
+  if(value <= MIN_WAVE_DIST){
+    trigger_wave();
+  }
 }
