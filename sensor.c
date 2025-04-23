@@ -5,11 +5,18 @@
 float duration, distance;
 float previousDistance = 0;
 
+/**
+ * Starts IN/OUT pins for sensors
+ */
 init_sensor(){
     pinMode(TRIG_PIN, OUTPUT);
     pinMode(ECHO_PIN, INPUT);
 }
 
+/**
+ * Reading sequence for the sensor.
+ * @return - Distance read by sensor, averaged out to avoid jumps
+ */
 int read(){
     float totalDistance = 0;
     int validReadings = 0;
