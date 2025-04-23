@@ -1,13 +1,13 @@
 #include <Arduino.h>
 #include "sensor.h"
+#include "logging.h"
 
 float duration, distance;
 float previousDistance = 0;
 
 init_sensor(){
-    pinMode(trigPin, OUTPUT);
-    pinMode(echoPin, INPUT);
-    Serial.begin(9600); // will have to merge with pir
+    pinMode(TRIG_PIN, OUTPUT);
+    pinMode(ECHO_PIN, INPUT);
 }
 
 read(){
@@ -15,18 +15,18 @@ read(){
     int validReadings = 0;
 
     // Take multiple readings
-    for (int i = 0; i < numReadings; i++) {
-        digitalWrite(trigPin, LOW);
+    for (int i = 0; i < NUM_READINGS; i++) {
+        digitalWrite(TRIG_PIN, LOW);
         delayMicroseconds(2);
-        digitalWrite(trigPin, HIGH);
+        digitalWrite(TRIG_PIN, HIGH);
         delayMicroseconds(10);
-        digitalWrite(trigPin, LOW);
+        digitalWrite(TRIG_PIN, LOW);
 
-        duration = pulseIn(echoPin, HIGH);
-        distance = duration * distance_multiple;
+        duration = pulseIn(ECHO_PIN, HIGH, 0);
+        distance = duration * DISTANCE_MULTIPLE;
 
         // Only include reasonable readings to avoid large jumps
-        if (distance > 2 && distance < 400 && abs(distance - previousDistance) < outlierThreshold) {
+        if (distance > 2 && distance < 400 && abs(distance - previousDistance) < OUTLIER_THRESHOLD) {
         totalDistance += distance;
         validReadings++;
         }
@@ -38,9 +38,9 @@ read(){
         float averageDistance = totalDistance / validReadings;
 
         // Only update if the distance change exceeds the threshold
-        if (abs(averageDistance - previousDistance) > changeThreshold) {
-        Serial.print("Distance: ");
-        Serial.println(averageDistance);
+        if (abs(averageDistance - previousDistance) > CHANGE_THRESHOLD) {
+            log_serial("Distance: ");
+        log_serial(averageDistance);
         previousDistance = averageDistance;
         }
     }
