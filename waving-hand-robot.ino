@@ -1,7 +1,6 @@
 #include "motor.h"
 #include "sensor.h"
 
-// needs to be on pin 2, as it is one of the only arduino uno interrupt pins
 #define MIN_WAVE_DIST 50 // this will need to be changed whenever I have the motor
 
 void setup() {
