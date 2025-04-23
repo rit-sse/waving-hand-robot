@@ -1,4 +1,5 @@
 #include "motor.h"
+#include "sensor.h"
 
 // needs to be on pin 2, as it is one of the only arduino uno interrupt pins
 #define PUSH_BUTTON_PIN 2
@@ -6,6 +7,7 @@
 void setup() {
   // put your setup code here, to run once:
   init_motor();
+  init_sensor();
 
   // push button
   pinMode(PUSH_BUTTON_PIN, INPUT); 
