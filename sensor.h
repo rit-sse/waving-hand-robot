@@ -14,7 +14,7 @@ extern "C" {
 
 void init_sensor();
 
-void read();
+int read();
 
 #ifdef __cplusplus
 }  // extern "C"

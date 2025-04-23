@@ -10,7 +10,7 @@ init_sensor(){
     pinMode(ECHO_PIN, INPUT);
 }
 
-read(){
+int read(){
     float totalDistance = 0;
     int validReadings = 0;
 
@@ -39,11 +39,11 @@ read(){
 
         // Only update if the distance change exceeds the threshold
         if (abs(averageDistance - previousDistance) > CHANGE_THRESHOLD) {
-            log_serial("Distance: ");
-        log_serial(averageDistance);
+            log_serial_char("Distance: ");
+        log_serial_float(averageDistance);
         previousDistance = averageDistance;
         }
     }
 
-    delay(200);
+    return previousDistance;
 }
